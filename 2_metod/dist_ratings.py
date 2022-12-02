@@ -1,5 +1,5 @@
 import pandas as pd
-import matplotlib
+from json import dump, load
 
 def calc_rating(id, df_matches):
     h_name = df_matches.at[id, 'HomeTeam']
@@ -30,20 +30,18 @@ if __name__ == '__main__':
     df_matches = pd.read_csv('23.csv')
     eligible = df_matches[df_matches.index >=60]
     coll = dict()
-    s_coll = dict()
+    coll['Season'] = '22-23' 
     for id in eligible.index:
-        rating = calc_rating(id, df_matches)
+        rating = int(calc_rating(id, df_matches))
         res = df_matches.at[id, 'FTR']
         if rating not in coll:
-            coll[rating] = [0, 0, 0, 0]
+            coll[rating] = [0, 0, 0]
         if res == 'H':
             coll[rating][0] += 1
         elif res == 'D':
             coll[rating][1] += 1
         else:
             coll[rating][2] += 1
-        coll[rating][3] += 1
-        
-        for key in sorted(coll):
-            s_coll[key] = coll[key]
-    print(s_coll)        
+    
+    with open(f"{coll['Season']}.json", 'w') as fp:
+        dump(coll, fp)

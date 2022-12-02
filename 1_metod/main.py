@@ -1,6 +1,4 @@
 import pandas as pd
-from time import strftime
-import pickle
 from scipy.stats import poisson
 from math import sqrt
 
