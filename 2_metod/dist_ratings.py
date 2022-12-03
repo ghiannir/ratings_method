@@ -1,5 +1,38 @@
 import pandas as pd
-from json import dump, load
+from json import dump
+
+TOT_MATCHES = 150
+
+def eligibility(teams):
+    if len(teams) != 20:
+        return False
+    for key in teams:
+        if teams[key] < 6:
+            return False
+    return True
+
+
+def find_eligible(df_matches):
+    teams = dict()
+    eligible = list()
+    id = 0
+    while not eligibility(teams):
+        home = df_matches.at[id, 'HomeTeam']
+        away = df_matches.at[id, 'AwayTeam']
+        if home not in teams:
+            teams[home] = 1
+        else:
+            teams[home] += 1
+        if away not in teams:
+            teams[away] = 1
+        else:
+            teams[away] += 1
+        if teams[home] >= 7 and teams[away] >= 7:
+            eligible.append(id)
+        id += 1
+    eligible.extend(i for i in range(id, TOT_MATCHES))
+    return eligible
+        
 
 def calc_rating(id, df_matches):
     h_name = df_matches.at[id, 'HomeTeam']
@@ -27,11 +60,14 @@ def calc_rating(id, df_matches):
     return home_rate - away_rate
 
 if __name__ == '__main__':
-    df_matches = pd.read_csv('23.csv')
-    eligible = df_matches[df_matches.index >=60]
+    year = input('Year of the end of the season: ')
+    df_matches = pd.read_csv(f'./data/{year}.csv')
+    df_matches = df_matches[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR']]
+    print(df_matches)
+    #eligible = df_matches[df_matches.index >=60]
+    eligible = find_eligible(df_matches)
     coll = dict()
-    coll['Season'] = '22-23' 
-    for id in eligible.index:
+    for id in eligible:
         rating = int(calc_rating(id, df_matches))
         res = df_matches.at[id, 'FTR']
         if rating not in coll:
@@ -43,5 +79,5 @@ if __name__ == '__main__':
         else:
             coll[rating][2] += 1
     
-    with open(f"{coll['Season']}.json", 'w') as fp:
+    with open(f"./results/{year}.json", 'w') as fp:
         dump(coll, fp)
