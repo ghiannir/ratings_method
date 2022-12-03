@@ -43,5 +43,6 @@ if __name__ == '__main__':
         'AwayR' : r_a,
         'DrawR' : r_d
     }
+    
     with open(OUTFILE, 'w') as fp:
         dump(save, fp)
