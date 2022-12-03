@@ -1,7 +1,7 @@
 import pandas as pd
 from json import dump
 
-TOT_MATCHES = 150
+TOT_MATCHES = 380
 
 def eligibility(teams):
     if len(teams) != 20:
@@ -63,8 +63,6 @@ if __name__ == '__main__':
     year = input('Year of the end of the season: ')
     df_matches = pd.read_csv(f'./data/{year}.csv')
     df_matches = df_matches[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR']]
-    print(df_matches)
-    #eligible = df_matches[df_matches.index >=60]
     eligible = find_eligible(df_matches)
     coll = dict()
     for id in eligible:
@@ -78,6 +76,6 @@ if __name__ == '__main__':
             coll[rating][1] += 1
         else:
             coll[rating][2] += 1
-    
+            
     with open(f"./results/{year}.json", 'w') as fp:
         dump(coll, fp)
