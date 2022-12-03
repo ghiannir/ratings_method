@@ -1,7 +1,7 @@
 from json import load, dump
 
-OUTFILE = './tests/sum.json'
-FILENAMES = [f'./tests/test_{i}.json' for i in range(14,23)]
+OUTFILE = './tests/sumd.json'
+FILENAMES = [f'./tests/test_{i}d.json' for i in range(14,23)]
 
 if __name__ == '__main__':
     tot = dict()

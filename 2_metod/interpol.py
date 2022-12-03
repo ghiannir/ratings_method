@@ -11,7 +11,7 @@ if __name__ == '__main__':
     s_coll = list()
     for key in coll:
         s_coll.append(int(key))
-    s_coll = sorted(s_coll)
+    s_coll = range(-20, 21)
     ds_coll = list()
     sums = list()
     h = list()
@@ -35,6 +35,11 @@ if __name__ == '__main__':
     mean_a = sum(a)/len(a)
     sst_a = sum((a[i]-mean_a)**2 for i in range(len(a)))
     r_a = 1-sse_a[0]/sst_a
+    p = np.poly1d(c_a)
+    plt.plot(s_coll, p(s_coll))
+    plt.plot(s_coll, a, 'ro')
+    plt.show()
+
     save = {
         'HomePoly' : list(c_h),
         'AwayPoly' : list(c_a),

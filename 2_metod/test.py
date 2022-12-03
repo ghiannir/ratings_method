@@ -15,9 +15,7 @@ def value_bet(id, df_matches, coeff, limit=40):
         # a = 1/a
         # d = 1/d
 
-        if df_matches.at[id, 'B365H'] > h + 0.1:
-            print(h)
-            print(df_matches.iloc[id])
+        if df_matches.at[id, 'B365H'] > h + 0.5:
             return 'H'
         # if df_matches.at[id, 'B365A'] > a:
         #     return 'A'
@@ -93,7 +91,14 @@ if __name__ == '__main__':
         'limit-15' : wins15,
         'limit-10' : wins10,
         'limit-5' : wins5,
-        'limit-2' : wins2
+        'limit-2' : wins2,
+        'bets' : len(vbs),
+        'perc-20' : wins20/len(vbs20),
+        'perc-15' : wins15/len(vbs15),
+        'perc-10' : wins10/len(vbs10),
+        'perc-5' : wins5/len(vbs5),
+        'perc-2' : wins2/len(vbs2),
+        'perc-all' : wins/len(vbs),
     }
-    with open(f'./tests/test_{year}.json', 'w') as fp:
+    with open(f'./tests/test_{year}d.json', 'w') as fp:
         dump(results, fp)

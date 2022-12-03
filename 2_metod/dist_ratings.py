@@ -1,8 +1,8 @@
 import pandas as pd
 from json import dump
 
-TOT_MATCHES = 462
-TOT_TEAMS = 22
+TOT_MATCHES = 139
+TOT_TEAMS = 20
 
 def eligibility(teams):
     if len(teams) != TOT_TEAMS:
