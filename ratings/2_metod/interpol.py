@@ -11,7 +11,7 @@ if __name__ == '__main__':
     s_coll = list()
     for key in coll:
         s_coll.append(int(key))
-    s_coll = range(-20, 21)
+    s_coll = range(-15,15)
     ds_coll = list()
     sums = list()
     h = list()
