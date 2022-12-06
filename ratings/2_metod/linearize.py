@@ -11,7 +11,7 @@ if __name__ == '__main__':
     s_coll = list()
     for key in coll:
         s_coll.append(int(key))
-    s_coll = range(-15,15)
+    s_coll = range(-20, 20)
     ds_coll = list()
     sums = list()
     h = list()
@@ -24,7 +24,7 @@ if __name__ == '__main__':
         a.append(list(coll[str(key)])[2]/sums[-1])
         ds_coll.extend([key]*sums[-1])
     c_h, sse_h, rank, s_values, rcond = np.polyfit(s_coll, h, 1, full=True)
-    c_a, sse_a, rank, s_values, rcond = np.polyfit(s_coll, a, 2, full=True)
+    c_a, sse_a, rank, s_values, rcond = np.polyfit(s_coll, a, 1, full=True)
     c_d, sse_d, rank, s_values, rcond = np.polyfit(s_coll, d, 2, full=True)
     mean_d = sum(d)/len(d)
     sst_d = sum((d[i]-mean_d)**2 for i in range(len(d)))
@@ -35,9 +35,15 @@ if __name__ == '__main__':
     mean_a = sum(a)/len(a)
     sst_a = sum((a[i]-mean_a)**2 for i in range(len(a)))
     r_a = 1-sse_a[0]/sst_a
+    p = np.poly1d(c_h)
+    plt.plot(s_coll, p(s_coll))
+    plt.plot(s_coll, h, 'bo')
+    plt.title(r_h)
+    plt.show()
     p = np.poly1d(c_a)
     plt.plot(s_coll, p(s_coll))
     plt.plot(s_coll, a, 'ro')
+    plt.title(r_a)
     plt.show()
 
     save = {
